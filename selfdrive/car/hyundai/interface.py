@@ -168,6 +168,14 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
       ret.minSteerSpeed = 0.
+    elif candidate == CAR.KIA_NIRO_EV:
+      ret.lateralTuning.pid.kf = 0.00005
+      ret.mass = 1764. + STD_CARGO_KG
+      ret.wheelbase = 2.7
+      ret.steerRatio = 13.9   #Spec
+      tire_stiffness_factor = 0.385
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
 
     ret.minEnableSpeed = -1.   # enable is done by stock ACC, so ignore this
 
@@ -262,7 +270,7 @@ class CarInterface(CarInterfaceBase):
 
     # cruise state
     # most HKG cars has no long control, it is safer and easier to engage by main on
-    ret.cruiseState.enabled = (self.CS.pcm_acc_status != 0) if self.CC.longcontrol else bool(self.CS.main_on)
+    ret.cruiseState.enabled = (self.CS.pcm_acc_status != 0)
     if self.CS.pcm_acc_status != 0:
       ret.cruiseState.speed = self.CS.cruise_set_speed
     else:
